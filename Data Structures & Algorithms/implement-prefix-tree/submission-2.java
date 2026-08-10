@@ -1,0 +1,45 @@
+class PrefixTree {
+    class TrieNode {
+        Map<Character,TrieNode> children = new HashMap<>();
+        boolean end = false;
+    }
+    private TrieNode root;
+    public PrefixTree() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for(char c: word.toCharArray()){
+            cur.children.putIfAbsent(c, new TrieNode());
+            cur = cur.children.get(c);
+        }
+        cur.end = true;
+    }
+
+    public boolean search(String word) {
+        TrieNode cur = root;
+        for(char c: word.toCharArray()){
+            if(cur.children.containsKey(c)){
+                cur = cur.children.get(c);
+            }
+            else{
+                return false;
+            }
+        }
+        return cur.end;
+    }
+
+    public boolean startsWith(String prefix) {
+        TrieNode cur = root;
+        for(char c: prefix.toCharArray()){
+            if(cur.children.containsKey(c)){
+                cur = cur.children.get(c);
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+}
